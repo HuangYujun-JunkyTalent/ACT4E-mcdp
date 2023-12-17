@@ -7,6 +7,9 @@ from typing import Generic, Optional, TypeVar, final, overload
 
 # FIXME
 # from mcdp_maps_reg import cco_map_value
+from .coords import CCOMapValue
+cco_map_value = CCOMapValue()
+
 from .posets import Interval, LowerSet, Numbers, PosetProduct, UpperSet
 from .primitivedps import (
     AmbientConversion,

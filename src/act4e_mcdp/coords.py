@@ -517,16 +517,28 @@ class CCOTupleSimple(CoordsConcreteOp[object]):
 
 def check_valid_coords(coords: "Coords") -> None:
     if not (why := is_valid_coords(coords)):
-        raise InvalidCoords("Invalid coords")
+        raise InvalidCoords("Invalid coords", why)
 
 
 class InvalidCoords(ValueError):
     pass
 
 
+@dataclass
+class MyBool:
+    truthy: bool
+    reason: str
+    def __bool__(self):
+        return self.truthy
+
+BoolLike = bool | MyBool
+
+def not_true(reason: str):
+    return MyBool(False, reason)
+
+
 # FIXME
-# def is_valid_coords(c: "Coords") -> BoolLike:
-def is_valid_coords(c: "Coords"):
+def is_valid_coords(c: "Coords") -> BoolLike:
     if isinstance(c, (CoordsIdentity, CoordsConst)):
         return True
     if isinstance(c, CoordsComp):
@@ -534,7 +546,7 @@ def is_valid_coords(c: "Coords"):
     if isinstance(c, ComposeList):  # type: ignore
         return all(is_valid_coords(x) for x in c.components)
     # FIXME
-    # return not_true(f"Invalid coords type {type(c).__name__}")
+    return not_true(f"Invalid coords type {type(c).__name__}")
 
 
 class CCOMapValue(CoordsConcreteOp[object]):
