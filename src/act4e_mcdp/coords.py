@@ -1,9 +1,6 @@
-import functools
 from abc import ABC, abstractmethod
 from dataclasses import dataclass, field
-from typing import Any, Generic, Literal, Optional, Sequence, TypeVar, final
-
-# from mcdp_utils_misc import BoolLike, not_true
+from typing import Any, Generic, Optional, Sequence, TypeVar, final
 
 __all__ = [
     "ComposeList",
@@ -12,25 +9,6 @@ __all__ = [
     "CoordsConcreteOp",
     "CoordsConst",
     "CoordsIdentity",
-    # "InvalidCoords",
-    # "c_comp",
-    # "c_comp_find",
-    # "c_const",
-    # "c_id",
-    # "c_identity_product",
-    # "c_ins",
-    # "c_list",
-    # "c_n_copies",
-    # "c_reverse_tuple",
-    # "cco_coords",
-    # "cco_list",
-    # "cco_tuple",
-    # "check_same_coords",
-    # "check_valid_coords",
-    # "get_coords_length",
-    # "is_2_el_permutation",
-    # "is_valid_coords",
-    # "same_coords",
 ]
 
 X = TypeVar("X")
@@ -528,10 +506,13 @@ class InvalidCoords(ValueError):
 class MyBool:
     truthy: bool
     reason: str
+
     def __bool__(self):
         return self.truthy
 
+
 BoolLike = bool | MyBool
+
 
 def not_true(reason: str):
     return MyBool(False, reason)
