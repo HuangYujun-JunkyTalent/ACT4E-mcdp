@@ -5,7 +5,11 @@ from decimal import Decimal
 from fractions import Fraction
 from typing import Generic, Optional, TypeVar, final, overload
 
-from mcdp_maps_reg import cco_map_value
+# FIXME
+# from mcdp_maps_reg import cco_map_value
+from .coords import CCOMapValue
+cco_map_value = CCOMapValue()
+
 from .posets import Interval, LowerSet, Numbers, PosetProduct, UpperSet
 from .primitivedps import (
     AmbientConversion,
