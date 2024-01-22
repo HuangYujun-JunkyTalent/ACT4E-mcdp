@@ -352,10 +352,48 @@ class PosetProduct(Generic[T], Poset[tuple[T, ...]]):
         return True
 
     def join(self, values: Collection[tuple[T, ...]]) -> Optional[tuple[T, ...]]:
-        raise NotImplementedError("join for PosetProduct")
+        if not values:
+            return None  # Empty collection has no join
+
+        # Initialize the join result with the first element in the collection
+        join_result = list(values[0])
+
+        # Iterate over each element in the tuples
+        for i in range(len(join_result)):
+            # Collect all the i-th elements from the tuples
+            ith_elements = [value[i] for value in values]
+
+            # Compute the join of the i-th elements using the i-th poset
+            ith_join = self.subs[i].join(ith_elements)
+
+            if ith_join is None:
+                return None  # If any join is undefined, the whole join is undefined
+
+            join_result[i] = ith_join
+
+        return tuple(join_result)
 
     def meet(self, values: Collection[tuple[T, ...]]) -> Optional[tuple[T, ...]]:
-        raise NotImplementedError("meet for PosetProduct")
+        if not values:
+            return None  # Empty collection has no meet
+
+        # Initialize the meet result with the first element in the collection
+        meet_result = list(values[0])
+
+        # Iterate over each element in the tuples
+        for i in range(len(meet_result)):
+            # Collect all the i-th elements from the tuples
+            ith_elements = [value[i] for value in values]
+
+            # Compute the meet of the i-th elements using the i-th poset
+            ith_meet = self.subs[i].meet(ith_elements)
+
+            if ith_meet is None:
+                return None  # If any meet is undefined, the whole meet is undefined
+
+            meet_result[i] = ith_meet
+
+        return tuple(meet_result)
 
     def largest_upperset_above(self, x: tuple[T, ...]) -> "UpperSet[tuple[T, ...]]":
         above = [P.largest_upperset_above(x_i) for P, x_i in zip(self.subs, x)]
